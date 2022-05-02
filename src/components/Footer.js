@@ -1,9 +1,9 @@
 function Footer() {
-  return(
+  return (
     <footer className="footer">
-			<p className="footer__author">© 2022 Станислав Сорочан</p>
-		</footer>
-  )
+      <p className="footer__author">© 2022 Станислав Сорочан</p>
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;
