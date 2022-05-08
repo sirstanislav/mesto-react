@@ -4,14 +4,8 @@ class Api {
     this._headers = headers;
   }
 
-  getProfile() {
+  getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
-  }
-
-  getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
   }
@@ -24,6 +18,22 @@ class Api {
         name,
         about,
       }),
+    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
+  }
+
+  updateAvatar(avatar) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar,
+      }),
+    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
+  }
+
+  getInitialCards() {
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
   }
 
@@ -45,28 +55,16 @@ class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
   }
 
-  setLike(id) {
-    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: "PUT",
-      headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
-  }
-
-  deleteLike(id) {
-    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
-  }
-
-  updateAvatar(avatar) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify({
-        avatar,
-      }),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
+  changeLikeCardStatus(id, isLiked) {
+    return isLiked
+      ? fetch(`${this._baseUrl}/cards/${id}/likes`, {
+          method: "PUT",
+          headers: this._headers,
+        }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      : fetch(`${this._baseUrl}/cards/${id}/likes`, {
+          method: "DELETE",
+          headers: this._headers,
+        }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
   }
 }
 
