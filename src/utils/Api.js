@@ -10,7 +10,7 @@ class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
   }
 
-  editProfile(name, about) {
+  setUserInfo(name, about) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
@@ -21,7 +21,7 @@ class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
   }
 
-  updateAvatar(avatar) {
+  setUserAvatar(avatar) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
@@ -31,7 +31,7 @@ class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
   }
 
-  getInitialCards() {
+  getCardList() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
     }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
