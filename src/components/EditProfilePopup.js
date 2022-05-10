@@ -29,8 +29,6 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     setDescription(currentUser.about || "");
   }, [currentUser]);
 
-  // console.log('name:', name, 'des:', description)
-
   return (
     <PopupWithForm
       isOpen={isOpen}

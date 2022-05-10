@@ -8,6 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
   let [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -16,10 +17,6 @@ function App() {
   let [selectedCard, setSelectedCard] = useState({});
   let [currentUser, setCurrentUser] = useState({});
   let [cards, setCards] = useState([]);
-
-
-
-
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -47,21 +44,6 @@ function App() {
       })
       .catch((err) => console.log(`Ошибка.....: ${err}`));
   }, []);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     api
@@ -105,6 +87,13 @@ function App() {
     });
   }
 
+  function handleAddPlaceSubmit({ name, link }) {
+    api.addCard(name, link).then((newCard) => {
+      setCards([newCard, ...cards]);
+      handleCloseAllPopups();
+    });
+  }
+
   function handleUpdateAvatar({ avatar }) {
     api.setUserAvatar(avatar).then((res) => {
       setCurrentUser(res);
@@ -138,37 +127,15 @@ function App() {
           onClose={handleCloseAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
+
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={handleCloseAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
       </CurrentUserContext.Provider>
 
       <Footer />
-
-      <PopupWithForm
-        isOpen={isAddPlacePopupOpen}
-        onClose={handleCloseAllPopups}
-        name="add-image"
-        title="Новое место"
-        button="Создать"
-        container=""
-        >
-        <input
-          className="popup__input popup__input_image_name"
-          name="image-name"
-          type="text"
-          placeholder="Название"
-          minLength="2"
-          maxLength="30"
-          required
-        />
-        <span className="popup__error"></span>
-        <input
-          className="popup__input popup__input_image_link"
-          name="image-link"
-          type="url"
-          placeholder="Ссылка на картинку"
-          required
-        />
-        <span className="popup__error"></span>
-      </PopupWithForm>
 
       <PopupWithForm
         name="confirm-delete"
