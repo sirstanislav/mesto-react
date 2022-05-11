@@ -7,6 +7,7 @@ function PopupWithForm({
   onClose,
   children,
   onSubmit,
+  styleConfirmDelete,
 }) {
   return (
     <section className={`popup popup_${name} ${isOpen && "popup_enable"}`}>
@@ -19,7 +20,7 @@ function PopupWithForm({
           onSubmit={onSubmit}
         >
           {children}
-          <button className="popup__save" type="submit">
+          <button className={`popup__save ${styleConfirmDelete}`} type="submit">
             {button}
           </button>
         </form>

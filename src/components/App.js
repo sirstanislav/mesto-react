@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import AddPlacePopup from "./AddPlacePopup";
+import ConfirmDeletePopup from "./ConfirmDeletePopup";
 
 function App() {
   let [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   let [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   let [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  let [isConfirmDeletePopup, setConfirmDeletePopupOpen] = useState(false);
+  let [isConfirmDelete, setConfirmDelete] = useState(false);
   let [selectedCard, setSelectedCard] = useState({});
   let [currentUser, setCurrentUser] = useState({});
   let [cards, setCards] = useState([]);
@@ -71,6 +73,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard({ isOpen: false });
+    setConfirmDeletePopupOpen(false);
   }
 
   function handleCardClick(data) {
@@ -133,23 +136,15 @@ function App() {
           onClose={handleCloseAllPopups}
           onAddPlace={handleAddPlaceSubmit}
         />
+
+        <ConfirmDeletePopup
+          isOpen={isConfirmDeletePopup}
+          onClose={handleCloseAllPopups}
+          onDelete={setConfirmDelete}
+        />
       </CurrentUserContext.Provider>
 
       <Footer />
-
-      <PopupWithForm
-        name="confirm-delete"
-        title="Вы уверены?"
-        button="Да"
-        container="popup__container_confirm-delete"
-      >
-        <button
-          className="popup__save popup__save_confirm-delete"
-          type="submit"
-        >
-          Да
-        </button>
-      </PopupWithForm>
 
       <ImagePopup card={selectedCard} onClose={handleCloseAllPopups} />
     </div>

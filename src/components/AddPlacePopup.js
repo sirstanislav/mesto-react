@@ -1,11 +1,9 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  let [name, setName] = React.useState();
-  let [link, setLink] = React.useState();
-  const currentUser = React.useContext(CurrentUserContext);
+  let [name, setName] = React.useState("");
+  let [link, setLink] = React.useState("");
 
   function inputName(e) {
     setName(e.target.value);
@@ -24,6 +22,11 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     });
   }
 
+  React.useEffect(() => {
+    setName("");
+    setLink("");
+  }, [isOpen]);
+
   return (
     <PopupWithForm
       isOpen={isOpen}
@@ -37,6 +40,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       <input
         className="popup__input popup__input_image_name"
         onChange={inputName}
+        value={name}
         name="image-name"
         type="text"
         placeholder="Название"
@@ -48,6 +52,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       <input
         className="popup__input popup__input_image_link"
         onChange={inputLink}
+        value={link}
         name="image-link"
         type="url"
         placeholder="Ссылка на картинку"
