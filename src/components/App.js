@@ -11,31 +11,37 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 
 function App() {
-  let [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  let [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  let [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  let [isConfirmDeletePopup, setConfirmDeletePopupOpen] = useState(false);
-  let [isConfirmDelete, setConfirmDelete] = useState(false);
-  let [selectedCard, setSelectedCard] = useState({});
-  let [currentUser, setCurrentUser] = useState({});
-  let [cards, setCards] = useState([]);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isConfirmDeletePopup, setConfirmDeletePopupOpen] = useState(false);
+  const [isConfirmDelete, setConfirmDelete] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) =>
-        state.map((item) => (item._id === card._id ? newCard : item))
-      );
-    });
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((item) => (item._id === card._id ? newCard : item))
+        );
+      })
+      .catch((err) => console.log(`Ошибка.....: ${err}`));
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((item) => item._id !== card._id));
-    });
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((state) => state.filter((item) => item._id !== card._id));
+      })
+      .catch((err) => console.log(`Ошибка.....: ${err}`));
   }
 
   useEffect(() => {
@@ -44,10 +50,8 @@ function App() {
       .then((res) => {
         setCards(res);
       })
-      .catch((err) => console.log(`Ошибка.....: ${err}`));
-  }, []);
+      .catch((err) => console.log(`Ошибка загрузки карточек: ${err}`));
 
-  useEffect(() => {
     api
       .getUserInfo()
       .then((res) => {
@@ -84,24 +88,33 @@ function App() {
   }
 
   function handleUpdateUser({ name, about }) {
-    api.setUserInfo(name, about).then((res) => {
-      setCurrentUser(res);
-      handleCloseAllPopups();
-    });
+    api
+      .setUserInfo(name, about)
+      .then((res) => {
+        setCurrentUser(res);
+        handleCloseAllPopups();
+      })
+      .catch((err) => console.log(`Ошибка....: ${err}`));
   }
 
   function handleAddPlaceSubmit({ name, link }) {
-    api.addCard(name, link).then((newCard) => {
-      setCards([newCard, ...cards]);
-      handleCloseAllPopups();
-    });
+    api
+      .addCard(name, link)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        handleCloseAllPopups();
+      })
+      .catch((err) => console.log(`Ошибка добавления карточки: ${err}`));
   }
 
   function handleUpdateAvatar({ avatar }) {
-    api.setUserAvatar(avatar).then((res) => {
-      setCurrentUser(res);
-      handleCloseAllPopups();
-    });
+    api
+      .setUserAvatar(avatar)
+      .then((res) => {
+        setCurrentUser(res);
+        handleCloseAllPopups();
+      })
+      .catch((err) => console.log(`Ошибка загрузки аватара: ${err}`));
   }
 
   return (

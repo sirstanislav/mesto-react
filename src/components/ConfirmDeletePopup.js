@@ -2,13 +2,12 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 export default function ConfirmDeletePopup({ isOpen, onClose, onDelete }) {
-
   function handleSubmit(e) {
     e.preventDefault();
 
-    onDelete()
+    onDelete();
   }
-  
+
   return (
     <PopupWithForm
       isOpen={isOpen}
@@ -18,7 +17,7 @@ export default function ConfirmDeletePopup({ isOpen, onClose, onDelete }) {
       title="Вы уверены?"
       button="Да"
       container="popup__container_confirm-delete"
-      styleConfirmDelete='popup__save_confirm-delete'
+      styleConfirmDelete="popup__save_confirm-delete"
     />
   );
 }
