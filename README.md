@@ -1,6 +1,6 @@
 # Project: Mesto-React
 
-Mesto: An interactive page where you can add photos, delete them, and like them.
+Mesto: An interactive page where you can register users, add photos, delete them, and like them.
 
 The project is written in `HTML`, `CSS`, `JSX` using `React Fraemwork`. To building the SPA was used the `BEM` methodology. Data came from the server and was sent to it through a class component using `RestAPI`.
 
